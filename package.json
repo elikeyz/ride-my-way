@@ -18,5 +18,8 @@
   "homepage": "https://github.com/elikeyz/ride-my-way#readme",
   "devDependencies": {
     "babel-cli": "^6.26.0"
+  },
+  "dependencies": {
+    "express": "^4.16.3"
   }
 }
