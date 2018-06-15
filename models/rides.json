@@ -1,0 +1,23 @@
+{
+    "ride1" : {
+        "date" : "15-06-2018",
+        "driver" : "John Doe",
+        "location" : "Lekki",
+        "destination" : "Ilupeju",
+        "requests" : {}
+    },
+    "ride2" : {
+        "date" : "14-06-2018",
+        "driver" : "Jane Doe",
+        "location" : "Ikotun",
+        "destination" : "Oshodi",
+        "requests" : {}
+    },
+    "ride3" : {
+        "date" : "16-16-2018",
+        "driver" : "Tommy Vercetti",
+        "location" : "Ikorodu",
+        "destination" : "Victoria Island",
+        "requests" : {} 
+    }
+}
