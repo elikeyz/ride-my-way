@@ -10,3 +10,5 @@ const server = app.listen(8081, () => {
 
     console.log(`Example app listening at http:${host}${port}`);
 })
+
+module.exports = app;
