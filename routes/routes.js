@@ -30,9 +30,19 @@ const appRouter = app => {
 
     app.post('/api/v1/users/rides', (req, res) => {
         fs.readFile('./models/rides.json', 'utf8', (err, data) => {
-            rides = JSON.parse(data);
+            const rides = JSON.parse(data);
             rides["ride4"] = newRide["ride4"];
             console.log(rides);
+            res.end(JSON.stringify(rides));
+        })
+    })
+
+    app.post('/api/v1/users/rides/:id/requests', (req, res) => {
+        fs.readFile('./models/rides.json', 'utf8', (err, data) => {
+            const rides = JSON.parse(data);
+            const ride = rides[`ride${req.params.id}`];
+            ride["requests"] = {"name": "passenger"};
+            console.log(rides)
             res.end(JSON.stringify(rides));
         })
     })
