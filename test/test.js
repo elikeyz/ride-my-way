@@ -26,12 +26,49 @@ describe('/GET/:id ride', () => {
         .end((err, res) => {
             res.should.have.status(200);
             res.body.should.be.a('object');
-            res.body.should.have.property('date');
-            res.body.should.have.property('driver');
-            res.body.should.have.property('location');
-            res.body.should.have.property('destination');
-            res.body.should.have.property('id').eql(req.params.id);
         done();
         });
     });
 });
+
+describe('/POST rides', () => {
+    it('it should POST a ride', (done) => {
+        let ride = {
+            "id" : 4,
+            "date" : "17-06-2018",
+            "driver" : "Niko Bellic",
+            "location" : "Apapa",
+            "destination" : "Badagry",
+            "requests" : {}
+        }
+        chai.request(app)
+        .post('/api/v1/users/rides')
+        .send(ride)
+        .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.be.a('object');
+            done();
+        });
+    });
+});
+
+describe('/POST rides/:id/requests', () => {
+    it('it should POST a request to a ride of the given id', (done) => {
+        let ride = {
+            "id" : 1,
+            "date" : "15-06-2018",
+            "driver" : "John Doe",
+            "location" : "Lekki",
+            "destination" : "Ilupeju",
+            "requests" : {}
+        }
+        chai.request(app)
+        .post('/api/v1/users/rides/:id/requests')
+        .send({"name" : "passenger"})
+        .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.be.a('object');
+            done();
+        })
+    })
+})
