@@ -1,6 +1,10 @@
 const fs = require('fs');
 
 const appRouter = app => {
+    app.get('/api/v1/users/', (req, res) => {
+        res.send('Welcome to the Ride My Way API, version 1! \nNavigate to /rides to get all rides. \nNavigate to /rides/{id} with ids 1, 2, and 3 to get each corresponding ride.');
+    })
+
     app.get('/api/v1/users/rides', (req, res) => {
         fs.readFile('./models/rides.json', 'utf8', (err, data) => {
             console.log(data);
@@ -17,18 +21,17 @@ const appRouter = app => {
         })
     })
 
-    const newRide = {
-        "ride4" : {
-            "id" : 4,
-            "date" : "17-06-2018",
-            "driver" : "Niko Bellic",
-            "location" : "Apapa",
-            "destination" : "Badagry",
-            "requests" : {}
-        }
-    }
-
     app.post('/api/v1/users/rides', (req, res) => {
+        const newRide = {
+            "ride4" : {
+                "id" : 4,
+                "date" : "17-06-2018",
+                "driver" : "Niko Bellic",
+                "location" : "Apapa",
+                "destination" : "Badagry",
+                "requests" : {}
+            }
+        }    
         fs.readFile('./models/rides.json', 'utf8', (err, data) => {
             const rides = JSON.parse(data);
             rides["ride4"] = newRide["ride4"];
