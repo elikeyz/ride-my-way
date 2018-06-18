@@ -21,10 +21,6 @@ describe('/GET rides', () => {
 
 describe('/GET/:id ride', () => {
     it('it should GET a ride by the given id', (done) => {
-        let ride = rides[`ride${req.params.id}`];
-        ride.save((err, ride) => {
-            
-        })
         chai.request(app)
         .get('/api/v1/users/rides/:id')
         .end((err, res) => {

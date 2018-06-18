@@ -28,7 +28,7 @@ const appRouter = app => {
         }
     }
 
-    app.post('/api/v1/users/createRide', (req, res) => {
+    app.post('/api/v1/users/rides', (req, res) => {
         fs.readFile('./models/rides.json', 'utf8', (err, data) => {
             rides = JSON.parse(data);
             rides["ride4"] = newRide["ride4"];
