@@ -1,18 +1,18 @@
 const fs = require('fs');
 
 const appRouter = app => {
-    app.get('/api/v1/users/', (req, res) => {
+    app.get('/api/v1/', (req, res) => {
         res.send('Welcome to the Ride My Way API, version 1! \nNavigate to /rides to get all rides. \nNavigate to /rides/{id} with ids 1, 2, and 3 to get each corresponding ride. \nRun POST requests on /rides to add a sample ride and on /rides/{id}/requests to create a sample request on any of the rides.');
     })
 
-    app.get('/api/v1/users/rides', (req, res) => {
+    app.get('/api/v1/rides', (req, res) => {
         fs.readFile('./models/rides.json', 'utf8', (err, data) => {
             console.log(data);
             res.end(data);
         });
     })
 
-    app.get('/api/v1/users/rides/:id', (req, res) => {
+    app.get('/api/v1/rides/:id', (req, res) => {
         fs.readFile('./models/rides.json', 'utf8', (err, data) => {
             const rides = JSON.parse(data);
             const ride = rides[`ride${req.params.id}`];
@@ -21,7 +21,7 @@ const appRouter = app => {
         })
     })
 
-    app.post('/api/v1/users/rides', (req, res) => {
+    app.post('/api/v1/rides', (req, res) => {
         const newRide = {
             "ride4" : {
                 "id" : 4,
@@ -40,7 +40,7 @@ const appRouter = app => {
         })
     })
 
-    app.post('/api/v1/users/rides/:id/requests', (req, res) => {
+    app.post('/api/v1/rides/:id/requests', (req, res) => {
         fs.readFile('./models/rides.json', 'utf8', (err, data) => {
             const rides = JSON.parse(data);
             const ride = rides[`ride${req.params.id}`];
