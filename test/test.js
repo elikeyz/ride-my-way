@@ -10,7 +10,7 @@ chai.use(chaiHttp);
 describe('/GET rides', () => {
     it('it should GET all the rides', (done) => {
         chai.request(app)
-            .get('/api/v1/users/rides')
+            .get('/api/v1/rides')
             .end((err, res) => {
                 res.should.have.status(200);
                 res.body.should.be.a('object');
@@ -22,7 +22,7 @@ describe('/GET rides', () => {
 describe('/GET/:id ride', () => {
     it('it should GET a ride by the given id', (done) => {
         chai.request(app)
-        .get('/api/v1/users/rides/:id')
+        .get('/api/v1/rides/:id')
         .end((err, res) => {
             res.should.have.status(200);
             res.body.should.be.a('object');
@@ -42,7 +42,7 @@ describe('/POST rides', () => {
             "requests" : {}
         }
         chai.request(app)
-        .post('/api/v1/users/rides')
+        .post('/api/v1/rides')
         .send(ride)
         .end((err, res) => {
             res.should.have.status(200);
@@ -63,7 +63,7 @@ describe('/POST rides/:id/requests', () => {
             "requests" : {}
         }
         chai.request(app)
-        .post('/api/v1/users/rides/:id/requests')
+        .post('/api/v1/rides/:id/requests')
         .send({"name" : "passenger"})
         .end((err, res) => {
             res.should.have.status(200);
