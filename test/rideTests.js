@@ -1,7 +1,8 @@
-import { describe, it } from 'mocha';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../app';
+
+const should = chai.should();
 
 process.env.NODE_ENV = 'test';
 chai.use(chaiHttp);
@@ -19,7 +20,7 @@ describe('/GET rides', () => {
 describe('/GET/:id ride', () => {
   it('it should GET a ride by the given id', (done) => {
     chai.request(app)
-      .get('/api/v1/rides/:id')
+      .get('/api/v1/rides/1')
       .end((err, res) => {
         res.should.have.status(200);
         done();
@@ -50,7 +51,7 @@ describe('/POST rides', () => {
 describe('/POST rides/:id/requests', () => {
   it('it should POST a request to a ride of the given id', (done) => {
     chai.request(app)
-      .post('/api/v1/rides/:id/requests')
+      .post('/api/v1/rides/1/requests')
       .send({ name: 'passenger' })
       .end((err, res) => {
         res.should.have.status(200);
