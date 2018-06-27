@@ -1,13 +1,10 @@
+import { describe, it } from 'mocha';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../app';
 
 process.env.NODE_ENV = 'test';
-
-const should = chai.should();
-
 chai.use(chaiHttp);
-
 describe('/GET rides', () => {
   it('it should GET all the rides', (done) => {
     chai.request(app)
@@ -52,14 +49,6 @@ describe('/POST rides', () => {
 
 describe('/POST rides/:id/requests', () => {
   it('it should POST a request to a ride of the given id', (done) => {
-    const ride = {
-      id: 1,
-      date: '15-06-2018',
-      driver: 'John Doe',
-      location: 'Lekki',
-      destination: 'Ilupeju',
-      requests: {},
-    };
     chai.request(app)
       .post('/api/v1/rides/:id/requests')
       .send({ name: 'passenger' })
@@ -68,5 +57,4 @@ describe('/POST rides/:id/requests', () => {
         done();
       });
   });
-})
-;
+});
