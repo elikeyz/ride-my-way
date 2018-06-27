@@ -9,9 +9,6 @@ addons:
     code_climate:
         repo_token: 
 script: npm test
-
-before_script:
-  - npm run build
   
 after_success:
   - npm run coverage
