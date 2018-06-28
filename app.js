@@ -10,9 +10,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 routes(app);
 
 const server = app.listen((process.env.PORT || 8081), () => {
-  const host = server.address().address;
   const { port } = server.address();
-  console.log(`Example app listening at http:${host}${port}`);
+  console.log(`Ride-My-Way app listening at port ${port}`);
 });
 
 export default app;
