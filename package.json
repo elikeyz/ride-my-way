@@ -4,7 +4,7 @@
   "description": "A carpooling application",
   "main": "app.js",
   "scripts": {
-    "start-dev": "cross-env NODE_ENV=development && nodemon --exec babel-node app.js",
+    "start-dev": "NODE_ENV=development && nodemon --exec babel-node app.js",
     "start": "cross-env NODE_ENV=production && babel-node app.js",
     "test": "nyc --reporter=html --reporter=text mocha --compilers js:babel-core/register",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
