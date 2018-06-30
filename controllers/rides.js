@@ -30,6 +30,7 @@ export function addRide(req, res) {
       driver: 'Niko Bellic',
       location: 'Apapa',
       destination: 'Badagry',
+      departure_time: '04:30 PM',
       requests: {},
     },
   };

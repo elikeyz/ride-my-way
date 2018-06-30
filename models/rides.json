@@ -5,6 +5,7 @@
         "driver" : "John Doe",
         "location" : "Lekki",
         "destination" : "Ilupeju",
+        "departure_time" : "08:00 AM",
         "requests" : {}
     },
     "ride2" : {
@@ -13,6 +14,7 @@
         "driver" : "Jane Doe",
         "location" : "Ikotun",
         "destination" : "Oshodi",
+        "departure_time" : "07:00 PM",
         "requests" : {}
     },
     "ride3" : {
@@ -21,6 +23,7 @@
         "driver" : "Tommy Vercetti",
         "location" : "Ikorodu",
         "destination" : "Victoria Island",
+        "departure_time" : "12:30 PM",
         "requests" : {}
     }
 }
