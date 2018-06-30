@@ -1,10 +1,12 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
+import dotenv from 'dotenv';
 import app from '../app';
 
 const should = chai.should();
 
-process.env.NODE_ENV = 'test';
+dotenv.config();
+
 chai.use(chaiHttp);
 describe('/GET rides', () => {
   it('it should GET all the rides', (done) => {
