@@ -70,3 +70,4 @@ describe('/POST rides/:id/requests', () => {
       });
   });
 });
+
