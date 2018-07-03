@@ -1,10 +1,12 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
+import dotenv from 'dotenv';
 import app from '../app';
 
 const should = chai.should();
 
-process.env.NODE_ENV = 'test';
+dotenv.config();
+
 chai.use(chaiHttp);
 describe('/GET rides', () => {
   it('it should GET all the rides', (done) => {
@@ -12,6 +14,8 @@ describe('/GET rides', () => {
       .get('/api/v1/rides')
       .end((err, res) => {
         res.should.have.status(200);
+        res.body.should.be.a('object');
+        res.body.should.have.property('body');
         done();
       });
   });
@@ -23,6 +27,8 @@ describe('/GET/:id ride', () => {
       .get('/api/v1/rides/1')
       .end((err, res) => {
         res.should.have.status(200);
+        res.body.should.be.a('object');
+        res.body.should.have.property('body');
         done();
       });
   });
@@ -36,13 +42,16 @@ describe('/POST rides', () => {
       driver: 'Niko Bellic',
       location: 'Apapa',
       destination: 'Badagry',
+      departure_time: '04:30 PM',
       requests: {},
     };
     chai.request(app)
       .post('/api/v1/rides')
       .send(ride)
       .end((err, res) => {
-        res.should.have.status(200);
+        res.should.have.status(201);
+        res.body.should.be.a('object');
+        res.body.should.have.property('body');
         done();
       });
   });
@@ -54,7 +63,9 @@ describe('/POST rides/:id/requests', () => {
       .post('/api/v1/rides/1/requests')
       .send({ name: 'passenger' })
       .end((err, res) => {
-        res.should.have.status(200);
+        res.should.have.status(201);
+        res.body.should.be.a('object');
+        res.body.should.have.property('body');
         done();
       });
   });
