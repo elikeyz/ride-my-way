@@ -1,9 +1,4 @@
-import { Pool } from 'pg';
-
-const connectString = 'postgres://postgres:mastahacka@localhost:5432/rides';
-const pool = new Pool({
-  connectionString: connectString,
-});
+import { pool } from '../utils/dbconnect';
 
 try {
   pool.query(`
