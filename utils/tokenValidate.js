@@ -4,7 +4,7 @@ const tokenValidate = (req, res, next) => {
   jwt.verify(req.headers.token, process.env.SECRET_KEY, (err, decoded) => {
     if (err) {
       res.status(401).send({
-        message: 'Login Failed',
+        message: 'Please log in',
       });
     } else {
       console.log(decoded);

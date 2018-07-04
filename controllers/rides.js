@@ -24,15 +24,20 @@ export function getAllRides(req, res) {
 }
 
 export function getARide(req, res) {
-  fs.readFile('./models/rides.json', 'utf8', (err, data) => {
-    const rides = JSON.parse(data);
-    const ride = rides[`ride${req.params.id}`];
-    res.status(200).send({
-      message: 'Ride gotten successfully',
-      success: true,
-      body: JSON.stringify(ride),
+  const text = 'SELECT * FROM rides WHERE id = $1';
+  const values = [req.params.id];
+
+  try {
+    dbconnect.query(text, values, (err, result) => {
+      console.log(err, result);
+      res.status(201).send({
+        message: 'Ride gotten successfully',
+        body: result.rows[0],
+      });
     });
-  });
+  } catch (err) {
+    throw err;
+  }
 }
 
 export function addRide(req, res) {
