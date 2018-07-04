@@ -1,4 +1,4 @@
-import { pool } from '../utils/dbconnect';
+import pool from '../utils/dbconnect';
 
 try {
   pool.query(`
