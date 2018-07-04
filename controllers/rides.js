@@ -8,13 +8,19 @@ dotenv.config();
 
 
 export function getAllRides(req, res) {
-  fs.readFile('./models/rides.json', 'utf8', (err, data) => {
-    res.status(200).send({
-      message: 'Rides gotten successfully',
-      success: true,
-      body: data,
+  const text = 'SELECT * FROM rides';
+
+  try {
+    dbconnect.query(text, (err, result) => {
+      console.log(err, result);
+      res.status(201).send({
+        message: 'Rides gotten successfully',
+        body: result.rows,
+      });
     });
-  });
+  } catch (err) {
+    throw err;
+  }
 }
 
 export function getARide(req, res) {
