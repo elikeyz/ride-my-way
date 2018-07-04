@@ -21,7 +21,11 @@ const userController = {
     }
     const token = jwt.sign({ id: req.body.id }, process.env.SECRET_KEY, { expiresIn: 86400 });
 
-    res.status(201).send({ auth: true, accessToken: token });
+    res.status(201).send({
+      message: 'User account created successfully',
+      auth: true,
+      accessToken: token,
+    });
   },
 
   login: (req, res) => {
@@ -39,7 +43,11 @@ const userController = {
           res.status(401).send('Wrong password!');
         } else {
           const token = jwt.sign({ id: req.body.id }, process.env.SECRET_KEY, { expiresIn: 86400 });
-          res.status(200).send({ user: result.rows[0], accessToken: token });
+          res.status(200).send({
+            message: 'User logged in successfully',
+            user: result.rows[0],
+            accessToken: token,
+          });
         }
       }
     });
