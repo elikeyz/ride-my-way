@@ -1,9 +1,10 @@
 import { Pool } from 'pg';
+import dotenv from 'dotenv';
 
-const dbconnect = {
-  pool: new Pool({
-    connectionString: 'postgres://postgres:mastahacka@localhost:5432/rides',
-  }),
-};
+dotenv.config();
 
-export default dbconnect;
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: true,
+});
+export default pool;
