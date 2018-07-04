@@ -1,4 +1,11 @@
 import fs from 'fs';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
+import dotenv from 'dotenv';
+import dbconnect from '../utils/dbconnect';
+
+dotenv.config();
+
 
 export function getAllRides(req, res) {
   fs.readFile('./models/rides.json', 'utf8', (err, data) => {
@@ -23,26 +30,17 @@ export function getARide(req, res) {
 }
 
 export function addRide(req, res) {
-  const newRide = {
-    ride4: {
-      id: 4,
-      date: '17-06-2018',
-      driver: 'Niko Bellic',
-      location: 'Apapa',
-      destination: 'Badagry',
-      departure_time: '04:30 PM',
-      requests: {},
-    },
-  };
-  fs.readFile('./models/rides.json', 'utf8', (err, data) => {
-    const rides = JSON.parse(data);
-    rides.ride4 = newRide.ride4;
-    res.status(201).send({
-      message: 'Ride added successfully',
-      success: true,
-      body: JSON.stringify(rides),
+  const text = 'INSERT INTO rides(date, driver, location, destination, departure_time) VALUES($1, $2, $3, $4, $5) RETURNING *';
+  const values = [req.body.date, req.body.driver, req.body.location, req.body.destination, req.body.departure_time];
+
+  try {
+    dbconnect.query(text, values, (err, result) => {
+      console.log(err, result);
+      res.status(201).send(result.rows);
     });
-  });
+  } catch (err) {
+    throw err;
+  }
 }
 
 export function addRequest(req, res) {
