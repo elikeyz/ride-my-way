@@ -1,7 +1,7 @@
 import validate from './validate';
 import loginValidate from './loginValidate';
 import tokenValidate from './tokenValidate';
-import { getAllRides, getARide, addRide, addRequest } from '../controllers/rides';
+import { getRequests, getAllRides, getARide, addRide, addRequest } from '../controllers/rides';
 import userController from '../controllers/users';
 
 const routes = (app) => {
@@ -10,6 +10,7 @@ const routes = (app) => {
   });
   app.get('/api/v1/rides', tokenValidate, getAllRides);
   app.get('/api/v1/rides/:id', tokenValidate, getARide);
+  app.get('/api/v1/users/rides/:id/requests', tokenValidate, getRequests);
   app.post('/api/v1/users/rides', tokenValidate, addRide);
   app.post('/api/v1/rides/:id/requests', tokenValidate, addRequest);
   app.post('/api/v1/auth/signup', validate, userController.signUp);

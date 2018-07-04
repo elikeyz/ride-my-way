@@ -1,19 +1,32 @@
-import fs from 'fs';
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';
 import dbconnect from '../utils/dbconnect';
 
 dotenv.config();
 
+export function getRequests(req, res) {
+  const text = 'SELECT * FROM requests WHERE rideId = $1';
+  const values = [req.params.id];
 
-export function getAllRides(req, res) {
+  try {
+    dbconnect.query(text, values, (err, result) => {
+      console.log(err, result);
+      res.status(200).send({
+        message: 'Requests gotten successfully',
+        body: result.rows,
+      });
+    });
+  } catch (err) {
+    throw err;
+  }
+}
+
+export function getAllRides(res) {
   const text = 'SELECT * FROM rides';
 
   try {
     dbconnect.query(text, (err, result) => {
       console.log(err, result);
-      res.status(201).send({
+      res.status(200).send({
         message: 'Rides gotten successfully',
         body: result.rows,
       });
@@ -30,7 +43,7 @@ export function getARide(req, res) {
   try {
     dbconnect.query(text, values, (err, result) => {
       console.log(err, result);
-      res.status(201).send({
+      res.status(200).send({
         message: 'Ride gotten successfully',
         body: result.rows[0],
       });
