@@ -25,7 +25,11 @@ describe('/POST /auth/signup', () => {
         res.body.should.have.property('auth');
         res.body.should.have.property('accessToken');
         res.body.auth.should.eql(true);
+        done();
       });
+  });
+
+  it('it should ensure that no input field is empty', (done) => {
     let badUserData = {
       name: '',
       username: 'elikeyz',
@@ -82,3 +86,77 @@ describe('/POST /auth/signup', () => {
   });
 });
 
+describe('/POST /auth/login', () => {
+  it('it should login an existing user successfully', (done) => {
+    const loginData = {
+      username: 'elikeyz',
+      password: 'mastahacka',
+    };
+    chai.request(app)
+      .post('/api/v1/auth/login')
+      .type('form')
+      .send(loginData)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        res.body.should.have.property('user');
+        res.body.should.have.property('accessToken');
+        done();
+      });
+  });
+  it('it should ensure that the user account exists', (done) => {
+    const wrongUsername = {
+      username: 'unknown',
+      password: 'mastahacka',
+    };
+    chai.request(app)
+      .post('/api/v1/auth/login')
+      .type('form')
+      .send(wrongUsername)
+      .end((err, res) => {
+        res.should.have.status(404);
+        done();
+      });
+  });
+  it('it should ensure that the password is correct', (done) => {
+    const wrongPassword = {
+      username: 'elikeyz',
+      password: 'unknown',
+    };
+    chai.request(app)
+      .post('/api/v1/auth/login')
+      .type('form')
+      .send(wrongPassword)
+      .end((err, res) => {
+        res.should.have.status(401);
+        done();
+      });
+  });
+
+  it('it should ensure that no input field is empty', (done) => {
+    let badUserData = {
+      username: '',
+      password: 'mastahacka',
+    };
+    chai.request(app)
+      .post('/api/v1/auth/login')
+      .type('form')
+      .send(badUserData)
+      .end((err, res) => {
+        res.should.have.status(400);
+      });
+
+    badUserData = {
+      username: 'elikeyz',
+      password: '',
+    };
+    chai.request(app)
+      .post('/api/v1/auth/login')
+      .type('form')
+      .send(badUserData)
+      .end((err, res) => {
+        res.should.have.status(400);
+        done();
+      });
+  });
+});

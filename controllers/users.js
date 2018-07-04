@@ -31,7 +31,7 @@ const userController = {
     dbconnect.query(text, values, (err, result) => {
       if (err) {
         res.status(500).send('Server Error!');
-      } else if (res.rowCount < 1) {
+      } else if (result.rowCount < 1) {
         res.status(404).send('User account not found!');
       } else {
         const comparePassword = bcrypt.compareSync(req.body.password, result.rows[0].password);

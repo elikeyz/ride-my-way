@@ -1,4 +1,5 @@
 import validate from './validate';
+import loginValidate from './loginValidate';
 import { getAllRides, getARide, addRide, addRequest } from '../controllers/rides';
 import userController from '../controllers/users';
 
@@ -11,7 +12,7 @@ const routes = (app) => {
   app.post('/api/v1/rides', addRide);
   app.post('/api/v1/rides/:id/requests', addRequest);
   app.post('/api/v1/auth/signup', validate, userController.signUp);
-  app.post('/api/v1/auth/login', userController.login);
+  app.post('/api/v1/auth/login', loginValidate, userController.login);
 };
 
 export default routes;
