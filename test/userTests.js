@@ -68,8 +68,8 @@ describe('/POST /auth/signup', () => {
     badUserData = {
       name: 'Elijah Udogu',
       username: 'elikeyz',
-      email: '',
-      password: 'mastahacka',
+      email: 'koppter.kom@gmail.com',
+      password: '',
     };
     chai.request(app)
       .post('/api/v1/auth/signup')
