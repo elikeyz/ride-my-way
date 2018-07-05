@@ -5,6 +5,7 @@ const tokenValidate = (req, res, next) => {
     if (err) {
       res.status(401).send({
         message: 'Please log in',
+        success: false,
       });
     } else {
       next();

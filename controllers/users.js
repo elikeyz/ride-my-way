@@ -7,23 +7,31 @@ dotenv.config();
 
 const userController = {
   signUp: (req, res) => {
-    const hashedPassword = bcrypt.hashSync(req.body.password, 10);
+    let text = 'SELECT * from users WHERE username = $1';
+    let values = [req.body.username];
 
-    const text = 'INSERT INTO users(username, name, email, password) VALUES($1, $2, $3, $4) RETURNING *';
-    const values = [req.body.username, req.body.name, req.body.email, hashedPassword];
+    dbconnect.query(text, values, (err, result) => {
+      if (result.rowCount >= 1) {
+        res.status(200).send({
+          message: 'Username already exists',
+          success: false,
+        });
+      } else {
+        const hashedPassword = bcrypt.hashSync(req.body.password, 10);
 
-    try {
-      dbconnect.query(text, values, (err, res) => {
-      });
-    } catch (err) {
-      throw err;
-    }
-    const token = jwt.sign({ id: req.body.id }, process.env.SECRET_KEY, { expiresIn: 86400 });
+        text = 'INSERT INTO users(username, name, email, password) VALUES($1, $2, $3, $4) RETURNING *';
+        values = [req.body.username, req.body.name, req.body.email, hashedPassword];
 
-    res.status(201).send({
-      message: 'User account created successfully',
-      auth: true,
-      accessToken: token,
+        dbconnect.query(text, values, (err, result) => {
+          const userId = result.rows[0].id;
+          const token = jwt.sign({ id: userId }, process.env.SECRET_KEY, { expiresIn: 86400 });
+          res.status(201).send({
+            message: 'User account created successfully',
+            success: true,
+            accessToken: token,
+          });
+        });
+      }
     });
   },
 
@@ -33,19 +41,27 @@ const userController = {
 
     dbconnect.query(text, values, (err, result) => {
       if (err) {
-        res.status(500).send('Server Error!');
+        res.status(500).send({
+          message: 'Server Error!',
+          success: false,
+        });
       } else if (result.rowCount < 1) {
-        res.status(404).send('User account not found!');
+        res.status(404).send({
+          message: 'User account not found!',
+          success: false,
+        });
       } else {
         const comparePassword = bcrypt.compareSync(req.body.password, result.rows[0].password);
         if (!comparePassword) {
-          res.status(401).send('Wrong password!');
+          res.status(401).send({
+            message: 'Wrong password!',
+            success: false,
+          });
         } else {
           const token = jwt.sign({ id: req.body.id }, process.env.SECRET_KEY, { expiresIn: 86400 });
           res.status(200).send({
             message: 'User logged in successfully',
-            auth: true,
-            user: result.rows[0],
+            success: true,
             accessToken: token,
           });
         }

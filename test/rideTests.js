@@ -81,9 +81,8 @@ describe('/POST rides/:id/requests', () => {
       .set({ token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1MzA3Nzk2MjIsImV4cCI6MTUzMDg2NjAyMn0.Dmx00DBm09nArQs2-6Oo1kzOLgkdhrhNgXmTeZ4pp1o' })
       .send({ passenger: 'galahad' })
       .end((err, res) => {
-        res.should.have.status(201);
+        res.should.have.status(200);
         res.body.should.be.a('object');
-        res.body.should.have.property('body');
         done();
       });
   });
