@@ -14,7 +14,6 @@ const userController = {
 
     try {
       dbconnect.query(text, values, (err, res) => {
-        console.log(err, res);
       });
     } catch (err) {
       throw err;

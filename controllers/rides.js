@@ -9,7 +9,6 @@ export function getRequests(req, res) {
 
   try {
     dbconnect.query(text, values, (err, result) => {
-      console.log(err, result);
       res.status(200).send({
         message: 'Requests gotten successfully',
         success: true,
@@ -21,12 +20,11 @@ export function getRequests(req, res) {
   }
 }
 
-export function getAllRides(res) {
+export function getAllRides(req, res) {
   const text = 'SELECT * FROM rides';
 
   try {
     dbconnect.query(text, (err, result) => {
-      console.log(err, result);
       res.status(200).send({
         message: 'Rides gotten successfully',
         success: true,
@@ -44,7 +42,6 @@ export function getARide(req, res) {
 
   try {
     dbconnect.query(text, values, (err, result) => {
-      console.log(err, result);
       res.status(200).send({
         message: 'Ride gotten successfully',
         success: true,
@@ -67,7 +64,6 @@ export function addRide(req, res) {
 
   try {
     dbconnect.query(text, values, (err, result) => {
-      console.log(err, result);
       res.status(201).send({
         message: 'Ride added successfully',
         success: true,
@@ -88,7 +84,6 @@ export function addRequest(req, res) {
 
   try {
     dbconnect.query(text, values, (err, result) => {
-      console.log(err, result);
       res.status(201).send({
         message: 'Ride requested successfully',
         success: true,
@@ -118,7 +113,7 @@ export function respondToRequest(req, res) {
             success: true,
           });
         } else {
-          res.status(200).json({ 
+          res.status(200).json({
             message: 'Ride rejected',
             success: true,
           });
