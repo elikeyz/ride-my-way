@@ -23,9 +23,7 @@ const createdb = () => {
       passenger TEXT REFERENCES users(username),
       rideId INTEGER REFERENCES rides(id),
       isAccepted BOOLEAN
-    )`, (err, res) => {
-      console.log(err, res);
-    });
+    )`);
   } catch (err) {
     throw err;
   }

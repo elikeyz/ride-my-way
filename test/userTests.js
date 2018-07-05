@@ -11,7 +11,7 @@ describe('/POST /auth/signup', () => {
   it('it should create a new user account successfully', (done) => {
     const userData = {
       name: 'Elijah Udogu',
-      username: 'elikeyz',
+      username: 'elikeys',
       email: 'koppter.kom@gmail.com',
       password: 'mastahacka',
     };
@@ -20,11 +20,9 @@ describe('/POST /auth/signup', () => {
       .type('form')
       .send(userData)
       .end((err, res) => {
-        res.should.have.status(201);
-        res.body.should.be.a('object');
-        res.body.should.have.property('auth');
-        res.body.should.have.property('accessToken');
-        res.body.auth.should.eql(true);
+        res.should.have.status(200);
+        res.body.should.have.property('message');
+        res.body.should.have.property('success');
         done();
       });
   });
@@ -99,7 +97,6 @@ describe('/POST /auth/login', () => {
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('object');
-        res.body.should.have.property('user');
         res.body.should.have.property('accessToken');
         done();
       });
