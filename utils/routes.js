@@ -1,7 +1,10 @@
 import validate from './validate';
 import loginValidate from './loginValidate';
 import tokenValidate from './tokenValidate';
-import { getRequests, getAllRides, getARide, addRide, addRequest } from '../controllers/rides';
+import rideValidate from './rideValidate';
+import requestValidate from './requestValidate';
+import responseValidate from './responseValidate';
+import { getRequests, getAllRides, getARide, addRide, addRequest, respondToRequest } from '../controllers/rides';
 import userController from '../controllers/users';
 
 const routes = (app) => {
@@ -11,10 +14,11 @@ const routes = (app) => {
   app.get('/api/v1/rides', tokenValidate, getAllRides);
   app.get('/api/v1/rides/:id', tokenValidate, getARide);
   app.get('/api/v1/users/rides/:id/requests', tokenValidate, getRequests);
-  app.post('/api/v1/users/rides', tokenValidate, addRide);
-  app.post('/api/v1/rides/:id/requests', tokenValidate, addRequest);
+  app.post('/api/v1/users/rides', tokenValidate, rideValidate, addRide);
+  app.post('/api/v1/rides/:id/requests', tokenValidate, requestValidate, addRequest);
   app.post('/api/v1/auth/signup', validate, userController.signUp);
   app.post('/api/v1/auth/login', loginValidate, userController.login);
+  app.put('/api/v1/users/rides/:rideid/requests/:requestid', tokenValidate, responseValidate, respondToRequest);
 };
 
 export default routes;

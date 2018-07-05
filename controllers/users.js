@@ -45,6 +45,7 @@ const userController = {
           const token = jwt.sign({ id: req.body.id }, process.env.SECRET_KEY, { expiresIn: 86400 });
           res.status(200).send({
             message: 'User logged in successfully',
+            auth: true,
             user: result.rows[0],
             accessToken: token,
           });

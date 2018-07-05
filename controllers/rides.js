@@ -12,6 +12,7 @@ export function getRequests(req, res) {
       console.log(err, result);
       res.status(200).send({
         message: 'Requests gotten successfully',
+        success: true,
         body: result.rows,
       });
     });
@@ -28,6 +29,7 @@ export function getAllRides(res) {
       console.log(err, result);
       res.status(200).send({
         message: 'Rides gotten successfully',
+        success: true,
         body: result.rows,
       });
     });
@@ -45,6 +47,7 @@ export function getARide(req, res) {
       console.log(err, result);
       res.status(200).send({
         message: 'Ride gotten successfully',
+        success: true,
         body: result.rows[0],
       });
     });
@@ -67,6 +70,7 @@ export function addRide(req, res) {
       console.log(err, result);
       res.status(201).send({
         message: 'Ride added successfully',
+        success: true,
         body: result.rows,
       });
     });
@@ -87,6 +91,7 @@ export function addRequest(req, res) {
       console.log(err, result);
       res.status(201).send({
         message: 'Ride requested successfully',
+        success: true,
         body: result.rows,
       });
     });
@@ -94,3 +99,32 @@ export function addRequest(req, res) {
     throw err;
   }
 }
+
+export function respondToRequest(req, res) {
+  let text = 'SELECT * FROM requests WHERE id = $1';
+  let values = [req.params.requestid];
+
+  dbconnect.query(text, values, (err, result) => {
+    if (!result) {
+      res.status(404).send('Request does not exist');
+    } else {
+      text = 'UPDATE requests SET isAccepted = $1 WHERE rideid = $2 AND id = $3';
+      values = [req.body.accept, req.params.rideid, req.params.requestid];
+
+      dbconnect.query(text, values, (err, result) => {
+        if (req.body.accept === 'true') {
+          res.status(200).json({
+            message: 'Ride accepted',
+            success: true,
+          });
+        } else {
+          res.status(200).json({ 
+            message: 'Ride rejected',
+            success: true,
+          });
+        }
+      });
+    }
+  });
+}
+
