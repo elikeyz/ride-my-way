@@ -50,29 +50,6 @@ describe('/GET/users/rides/:id/requests', () => {
   });
 });
 
-describe('/POST rides', () => {
-  it('it should POST a ride', (done) => {
-    const ride = {
-      date: '17/06/2018',
-      driver: 'Niko Bellic',
-      location: 'Apapa',
-      destination: 'Badagry',
-      departure_time: '04:30',
-    };
-    chai.request(app)
-      .post('/api/v1/users/rides')
-      .type('form')
-      .set({ token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1MzA3Nzk2MjIsImV4cCI6MTUzMDg2NjAyMn0.Dmx00DBm09nArQs2-6Oo1kzOLgkdhrhNgXmTeZ4pp1o' })
-      .send(ride)
-      .end((err, res) => {
-        res.should.have.status(201);
-        res.body.should.be.a('object');
-        res.body.should.have.property('body');
-        done();
-      });
-  });
-});
-
 describe('/POST rides/:id/requests', () => {
   it('it should POST a request to a ride of the given id', (done) => {
     chai.request(app)
