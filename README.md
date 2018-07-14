@@ -22,26 +22,26 @@ The proposed views for Ride-My-Way are hosted on GitHub Pages. The pages/views c
 ### Backend
 The backend implementation is currently hosted on Heroku. The following endpoints have been implemented:
 
-Get all ride offers [GET: /api/v1/rides]
-Get a ride offer[GET: /api/v1/rides/:rideId]
-Get all requests for a ride offer[POST: /api/v1/users/rides/:rideId/requests]
-Create a ride offer [POST: /api/v1/users/rides]
-Request to Join a ride[POST: /api/v1/rides/:rideId/requests]
-Sign up[POST: /api/v1/auth/signup]
-Login[POST: /api/v1/auth/login]
-Respond to a ride request [PUT: /api/v1/users/rides/:rideId/requests/:requestId]
+- Get all ride offers [GET: /api/v1/rides]
+- Get a ride offer[GET: /api/v1/rides/:rideId]
+- Get all requests for a ride offer[POST: /api/v1/users/rides/:rideId/requests]
+- Create a ride offer [POST: /api/v1/users/rides]
+- Request to Join a ride[POST: /api/v1/rides/:rideId/requests]
+- Sign up[POST: /api/v1/auth/signup]
+- Login[POST: /api/v1/auth/login]
+- Respond to a ride request [PUT: /api/v1/users/rides/:rideId/requests/:requestId]
 
 ### Technologies used
 The following technologies are currently being used in the development of the application:
 
-HTML
-CSS
-Javascript
-NodeJS
-Express
-Babel
-Body-parser
-Mocha, Chai and Nyc (for testing)
+- HTML
+- CSS
+- Javascript
+- NodeJS
+- Express
+- Babel
+- Body-parser
+- Mocha, Chai and Nyc (for testing)
 
 ### Base URL
 
