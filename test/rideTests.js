@@ -1,6 +1,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import dotenv from 'dotenv';
+import jwt from 'jsonwebtoken';
 import app from '../app';
 
 const should = chai.should();
@@ -8,11 +9,16 @@ const should = chai.should();
 dotenv.config();
 
 chai.use(chaiHttp);
+
 describe('/GET rides', () => {
+  before(() => {
+    const accesstoken = jwt.sign({ id: 2 }, process.env.SECRET_KEY, { expiresIn: 86400 });
+  });
+
   it('it should GET all the rides', (done) => {
     chai.request(app)
       .get('/api/v1/rides')
-      .set({ token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1MzA3Nzk2MjIsImV4cCI6MTUzMDg2NjAyMn0.Dmx00DBm09nArQs2-6Oo1kzOLgkdhrhNgXmTeZ4pp1o' })
+      .set({ token: accesstoken });
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('object');
