@@ -1,0 +1,536 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "Ride My Way",
+      "description": "A carpooling application that allows users to offer rides and request for available rides as well.",
+      "license": {
+        "name": "MIT",
+        "url": "https://opensource.org/licenses/MIT"
+      }
+    },
+    "host": "localhost:8081",
+    "basePath": "/api/v1",
+    "tags": [
+      {
+        "name": "Users",
+        "description": "API for users in the system"
+      },
+      {
+        "name": "Auth",
+        "description": "API for user authentication"  
+      },
+      {
+        "name": "Rides",
+        "description": "API for rides in the system"  
+      }
+    ],
+    "schemes": [
+      "http"
+    ],
+    "consumes": [
+      "application/json"
+    ],
+    "produces": [
+      "application/json"
+    ],
+    "paths": {
+      "/auth/signup": {
+        "post": {
+            "tags": [
+              "Auth"
+            ],
+            "summary": "Create new user account in system",
+            "description": "Create new user account in system",
+            "parameters": [
+              {
+                "name": "user",
+                "in": "body",
+                "description": "User account that we want to create",
+                "schema": {
+                  "$ref": "#/definitions/Signup"
+                }
+              }
+            ],
+            "produces": [
+              "application/json"
+            ],
+            "responses": {
+              "200": {
+                "description": "User account created successfully",
+                "schema": {
+                  "$ref": "#/definitions/Token"
+                }
+              },
+              "409": {
+                "description": "Username already exists"                
+              },
+              "500": {
+                "description": "Server Error"                
+              }
+            }
+          }  
+      },
+      "/auth/login": {
+        "post": {
+            "tags": [
+              "Auth"
+            ],
+            "summary": "Login to an existing user account in system",
+            "description": "Login to an existing user account in system",
+            "parameters": [
+              {
+                "name": "user",
+                "in": "body",
+                "description": "User account that we want to log in to",
+                "schema": {
+                  "$ref": "#/definitions/Login"
+                }
+              }
+            ],
+            "produces": [
+              "application/json"
+            ],
+            "responses": {
+              "200": {
+                "description": "User logged in successfully",
+                "schema": {
+                  "$ref": "#/definitions/Token"
+                }
+              },
+              "401": {
+                "description": "Wrong password"                
+              },
+              "404": {
+                "description": "User account not found"                
+              },
+              "500": {
+                "description": "Server Error"                
+              }
+            }
+          }  
+      },
+      "/rides": {
+        "parameters": [
+            {
+                "name": "token",
+                "in": "header",
+                "required": true,
+                "description": "JSON Web Token authorizing the user to access this route",
+                "schema": {
+                  "$ref": "#/definitions/Token"
+                }  
+          }  
+        ],  
+        "get": {
+            "tags": [
+              "Rides"
+            ],
+            "summary": "Get all rides in system",
+            "description": "Get all rides in system",
+            "responses": {
+              "200": {
+                "description": "Rides gotten successfully",
+                "schema": {
+                  "$ref": "#/definitions/Rides"
+                }
+              },
+              "500": {
+                "description": "Server Error"                
+              }
+            }
+          }  
+      },
+      "/rides/{rideId}": {
+        "parameters": [
+            {
+                "name": "token",
+                "in": "header",
+                "required": true,
+                "description": "JSON Web Token authorizing the user to access this route",
+                "schema": {
+                  "$ref": "#/definitions/Token"
+                }  
+          },                       
+            {
+              "name": "rideId",
+              "in": "path",
+              "required": true,
+              "description": "ID of ride offer that we want to find",
+              "type": "integer"
+            }
+          ],
+          "get": {
+            "tags": [
+              "Rides"
+            ],
+            "summary": "Get ride with given ID",
+            "description": "Get ride with given ID",
+            "responses": {
+              "200": {
+                "description": "Ride gotten successfully",
+                "schema": {
+                  "$ref": "#/definitions/Ride"
+                }
+              },
+              "404": {
+                "description": "Ride does not exist"                
+              },
+              "500": {
+                "description": "Server Error"                
+              }
+            }
+          }  
+      },
+      "/rides/{rideId}/requests": {
+        "parameters": [
+            {
+                "name": "token",
+                "in": "header",
+                "required": true,
+                "description": "JSON Web Token authorizing the user to access this route",
+                "schema": {
+                  "$ref": "#/definitions/Token"
+                }  
+          },
+            {
+              "name": "rideId",
+              "in": "path",
+              "required": true,
+              "description": "ID of ride offer that we want to make a request for",
+              "type": "integer"
+            }
+        ],  
+        "post": {
+            "tags": [
+              "Rides"
+            ],
+            "summary": "Create a ride request",
+            "description": "Create a ride request",
+            "parameters": [
+              {
+                    "name": "token",
+                    "in": "header",
+                    "required": true,
+                    "description": "JSON Web Token authorizing the user to access this route",
+                    "schema": {
+                      "$ref": "#/definitions/Token"
+                    }  
+              },  
+              {
+                "name": "request",
+                "in": "body",
+                "description": "Ride request that we want to create",
+                "schema": {
+                  "$ref": "#/definitions/Request"
+                }
+              }
+            ],
+            "produces": [
+              "application/json"
+            ],
+            "responses": {
+              "200": {
+                "description": "Ride requested successfully",
+                "schema": {
+                  "$ref": "#/definitions/Request"
+                }
+              },
+              "409": {
+                "description": "Request already sent"  
+              },
+              "500": {
+                "description": "Server Error"                
+              }
+            }
+          }  
+      },      
+      "/users/rides": {
+        "post": {
+            "tags": [
+              "Users"
+            ],
+            "summary": "Create a ride offer",
+            "description": "Create a ride offer",
+            "parameters": [
+                {
+                    "name": "token",
+                    "in": "header",
+                    "required": true,
+                    "description": "JSON Web Token authorizing the user to access this route",
+                    "schema": {
+                      "$ref": "#/definitions/Token"
+                    }  
+              },  
+              {
+                "name": "ride",
+                "in": "body",
+                "description": "Ride offer that we want to create",
+                "schema": {
+                  "$ref": "#/definitions/Ride"
+                }
+              }
+            ],
+            "produces": [
+              "application/json"
+            ],
+            "responses": {
+              "200": {
+                "description": "Ride added successfully",
+                "schema": {
+                  "$ref": "#/definitions/Ride"
+                }
+              },
+              "409": {
+                "description": "Ride already exists"  
+              },
+              "500": {
+                "description": "Server Error"                
+              }
+            }
+          }  
+      },
+      "/users/rides/{rideId}/requests": {
+        "parameters": [
+            {
+                "name": "token",
+                "in": "header",
+                "required": true,
+                "description": "JSON Web Token authorizing the user to access this route",
+                "schema": {
+                  "$ref": "#/definitions/Token"
+                }  
+          },
+            {
+              "name": "rideId",
+              "in": "path",
+              "required": true,
+              "description": "ID of ride offer that we want to query",
+              "type": "integer"
+            }
+          ],  
+        "get": {
+            "tags": [
+              "Users"
+            ],
+            "summary": "Get all requests for ride offer with given ID",
+            "description": "Get all requests for ride offer with given ID",
+            "responses": {
+              "200": {
+                "description": "Requests gotten successfully",
+                "schema": {
+                  "$ref": "#/definitions/Requests"
+                }
+              },
+              "500": {
+                "description": "Server Error"                
+              }
+            }
+          }  
+      },
+      "/users/rides/{rideId}/requests/{requestId}": {
+        "parameters": [
+            {
+                "name": "token",
+                "in": "header",
+                "required": true,
+                "description": "JSON Web Token authorizing the user to access this route",
+                "schema": {
+                  "$ref": "#/definitions/Token"
+                }  
+          },
+            {
+                "name": "rideId",
+                "in": "path",
+                "required": true,
+                "description": "ID of ride offer that we want to query",
+                "type": "integer"
+            },
+            {
+                "name": "requestID",
+                "in": "path",
+                "required": true,
+                "description": "ID of ride request that we want to respond to",
+                "type": "integer"
+            }  
+        ],
+        "put": {
+            "summary": "Respond to request with given ID of ride with given ID",
+            "tags": [
+              "Users"
+            ],
+            "parameters": [
+              {
+                "name": "request",
+                "in": "body",
+                "description": "Request with updated response",
+                "schema": {
+                  "$ref": "#/definitions/Requests"
+                }
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Request accepted/rejected",
+                "schema": {
+                  "$ref": "#/definitions/Request"
+                }
+              },
+              "404": {
+                "description": "Ride/Request doesn't exist"  
+              },
+              "500": {
+                "description": "Server Error"                
+              }
+            }
+          }
+      }
+    },
+    "definitions": {
+      "Signup": {
+        "required": [
+            "email",
+            "lastName",
+            "firstName",
+            "username",
+            "password"
+          ],
+          "properties": {
+            "email": {
+              "type": "string",
+              "uniqueItems": true
+            },
+            "lastName": {
+              "type": "string"
+            },
+            "firstName": {
+              "type": "string"
+            },
+            "username": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"  
+            }
+          }  
+      },
+      "Login": {
+        "required": [
+            "username",
+            "password"
+          ],
+          "properties": {
+            "username": {
+              "type": "string",
+              "uniqueItems": true
+            },
+            "password": {
+              "type": "string"  
+            }
+          }  
+      },
+      "Token": {
+        "properties": {
+          "token": {
+            "type": "string",
+            "uniqueItems": true  
+          }  
+        }  
+      },  
+      "User": {
+        "required": [
+          "email",
+          "lastName",
+          "firstName",
+          "username",
+          "password"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "email": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "password": {
+            "type": "string"  
+          }
+        }
+      },
+      "Users": {
+        "type": "array",
+        "$ref": "#/definitions/User"
+      },
+      "Ride": {
+        "required": [
+          "date",
+          "driver",
+          "location",
+          "destination",
+          "departure_time"  
+        ],  
+        "properties": {
+          "id": {
+            "type": "integer",
+            "uniqueItems": true  
+          },
+          "date": {
+            "type": "string"  
+          },
+          "driver": {
+            "type": "string"  
+          },
+          "location": {
+            "type": "string"  
+          },
+          "destination": {
+            "type": "string"  
+          },
+          "departure_time": {
+            "type": "string"  
+          }  
+        }  
+      },
+      "Rides": {
+        "type": "array",
+        "$ref": "#/definitions/Ride"
+      },
+      "Request": {
+        "required": [
+          "passenger",
+          "rideid"  
+        ],  
+        "properties": {
+          "id": {
+            "type": "integer",
+            "uniqueItems": true   
+          },
+          "passenger": {
+            "type": "string"  
+          },
+          "rideid": {
+            "type": "integer"  
+          },
+          "isaccepted": {
+            "type": "boolean"  
+          }  
+        }  
+      },
+      "Requests": {
+        "type": "array",
+        "$ref": "#/definitions/Request"  
+      }
+    }
+  }

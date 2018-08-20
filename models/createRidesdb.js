@@ -6,7 +6,8 @@ const createdb = () => {
     CREATE TABLE IF NOT EXISTS users(
       id SERIAL PRIMARY KEY,
       username TEXT UNIQUE,
-      name TEXT,
+      firstName TEXT,
+      lastName TEXT,
       email TEXT,
       password VARCHAR
     );

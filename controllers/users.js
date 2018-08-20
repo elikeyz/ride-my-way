@@ -8,19 +8,24 @@ dotenv.config();
 const userController = {
   signUp: (req, res) => {
     let text = 'SELECT * from users WHERE username = $1';
-    let values = [req.body.username];
+    let values = [req.body.username.trim()];
 
     dbconnect.query(text, values, (err, result) => {
-      if (result.rowCount >= 1) {
-        res.status(200).send({
+      if (err) {
+        res.status(500).send({
+          message: 'Server Error!',
+          success: false,
+        });
+      } else if (result.rowCount >= 1) {
+        res.status(409).send({
           message: 'Username already exists',
           success: false,
         });
       } else {
-        const hashedPassword = bcrypt.hashSync(req.body.password, 10);
+        const hashedPassword = bcrypt.hashSync(req.body.password.trim(), 10);
 
-        text = 'INSERT INTO users(username, name, email, password) VALUES($1, $2, $3, $4) RETURNING *';
-        values = [req.body.username, req.body.name, req.body.email, hashedPassword];
+        text = 'INSERT INTO users(username, firstName, lastName, email, password) VALUES($1, $2, $3, $4) RETURNING *';
+        values = [req.body.username.trim(), req.body.name.trim(), req.body.email.trim(), hashedPassword];
 
         dbconnect.query(text, values, (err, result) => {
           const userId = result.rows[0].id;
@@ -37,7 +42,7 @@ const userController = {
 
   login: (req, res) => {
     const text = 'SELECT * FROM users WHERE username = $1';
-    const values = [req.body.username];
+    const values = [req.body.username.trim()];
 
     dbconnect.query(text, values, (err, result) => {
       if (err) {

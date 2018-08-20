@@ -9,11 +9,18 @@ export function getRequests(req, res) {
 
   try {
     dbconnect.query(text, values, (err, result) => {
-      res.status(200).send({
-        message: 'Requests gotten successfully',
-        success: true,
-        body: result.rows,
-      });
+      if (err) {
+        res.status(500).send({
+          message: 'Server Error!',
+          success: false,
+        });
+      } else {
+        res.status(200).send({
+          message: 'Requests gotten successfully',
+          success: true,
+          body: result.rows,
+        });
+      }
     });
   } catch (err) {
     throw err;
@@ -25,11 +32,18 @@ export function getAllRides(req, res) {
 
   try {
     dbconnect.query(text, (err, result) => {
-      res.status(200).send({
-        message: 'Rides gotten successfully',
-        success: true,
-        body: result.rows,
-      });
+      if (err) {
+        res.status(500).send({
+          message: 'Server Error!',
+          success: false,
+        });
+      } else {
+        res.status(200).send({
+          message: 'Rides gotten successfully',
+          success: true,
+          body: result.rows,
+        });
+      }      
     });
   } catch (err) {
     throw err;
@@ -42,7 +56,12 @@ export function getARide(req, res) {
 
   try {
     dbconnect.query(text, values, (err, result) => {
-      if (result.rowCount < 1) {
+      if (err) {
+        res.status(500).send({
+          message: 'Server Error!',
+          success: false,
+        });
+      } else if (result.rowCount < 1) {
         res.status(404).send({
           message: 'Ride does not exist',
           success: false,
@@ -63,16 +82,21 @@ export function getARide(req, res) {
 export function addRide(req, res) {
   let text = 'SELECT * FROM rides WHERE date = $1 AND driver = $2 AND location = $3 AND destination = $4 AND departure_time = $5';
   const values = [
-    req.body.date,
-    req.body.driver,
-    req.body.location,
-    req.body.destination,
-    req.body.departure_time,
+    req.body.date.trim(),
+    req.body.driver.trim(),
+    req.body.location.trim(),
+    req.body.destination.trim(),
+    req.body.departure_time.trim(),
   ];
 
   dbconnect.query(text, values, (err, result) => {
-    if (result.rowCount >= 1) {
-      res.status(200).send({
+    if (err) {
+      res.status(500).send({
+        message: 'Server Error!',
+        success: false,
+      });
+    } else if (result.rowCount >= 1) {
+      res.status(409).send({
         message: 'Ride already exists',
         success: false,
       });
@@ -95,7 +119,12 @@ export function addRequest(req, res) {
   let values = [req.params.id];
 
   dbconnect.query(text, values, (err, result) => {
-    if (result.rowCount < 1) {
+    if (err) {
+      res.status(500).send({
+        message: 'Server Error!',
+        success: false,
+      });
+    } else if (result.rowCount < 1) {
       res.status(404).send({
         message: 'Ride does not exist',
         success: false,
@@ -103,13 +132,13 @@ export function addRequest(req, res) {
     } else {
       text = 'SELECT * FROM requests WHERE passenger = $1 AND rideId = $2';
       values = [
-        req.body.passenger,
+        req.body.passenger.trim(),
         req.params.id,
       ];
 
       dbconnect.query(text, values, (err, result) => {
         if (result.rowCount >= 1) {
-          res.status(200).send({
+          res.status(409).send({
             message: 'Request already sent',
             success: false,
           });
@@ -138,7 +167,12 @@ export function respondToRequest(req, res) {
   let values = [req.params.rideid];
 
   dbconnect.query(text, values, (err, result) => {
-    if (result.rowCount < 1) {
+    if (err) {
+      res.status(500).send({
+        message: 'Server Error!',
+        success: false,
+      });
+    } else if (result.rowCount < 1) {
       res.status(404).send({
         message: 'Ride does not exist',
         success: false,
@@ -160,12 +194,12 @@ export function respondToRequest(req, res) {
           dbconnect.query(text, values, (err, result) => {
             if (req.body.accept === 'true') {
               res.status(200).json({
-                message: 'Ride accepted',
+                message: 'Request accepted',
                 success: true,
               });
             } else {
               res.status(200).json({
-                message: 'Ride rejected',
+                message: 'Request rejected',
                 success: true,
               });
             }
