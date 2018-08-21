@@ -9,11 +9,6 @@ const rideValidate = (req, res, next) => {
       message: 'Please enter a present or future date',
       success: false,
     });
-  } else if (!req.body.driver.trim()) {
-    res.status(401).send({
-      message: 'Please enter your username',
-      success: false,
-    });
   } else if (!req.body.location.trim()) {
     res.status(401).send({
       message: 'Please enter your departure location',
