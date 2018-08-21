@@ -18,7 +18,7 @@ describe('/GET rides', () => {
   it('it should GET all the rides', (done) => {
     chai.request(app)
       .get('/api/v1/rides')
-      .set({ token: accesstoken });
+      .set({ token: accesstoken })
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('object');

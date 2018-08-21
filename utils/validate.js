@@ -1,7 +1,12 @@
 const validate = (req, res, next) => {
-  if (!req.body.name.trim()) {
+  if (!req.body.firstName.trim()) {
     res.status(400).send({
-      message: 'Please enter your name',
+      message: 'Please enter your first name',
+      success: false,
+    });
+  } else if (!req.body.lastName.trim()) {
+    res.status(400).send({
+      message: 'Please enter your last name',
       success: false,
     });
   } else if (!req.body.username.trim()) {

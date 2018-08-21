@@ -4,6 +4,11 @@ const rideValidate = (req, res, next) => {
       message: 'Please enter your departure date',
       success: false,
     });
+  } else if (new Date() > new Date(req.body.date)) {
+    res.status(401).send({
+      message: 'Please enter a present or future date',
+      success: false,
+    });
   } else if (!req.body.driver.trim()) {
     res.status(401).send({
       message: 'Please enter your username',
@@ -19,7 +24,7 @@ const rideValidate = (req, res, next) => {
       message: 'Please enter your destination',
       success: false,
     });
-  } else if (!req.body.departure_time.trim()) {
+  } else if (!req.body.departureTime.trim()) {
     res.status(401).send({
       message: 'Please indicate your departure time',
       success: false,

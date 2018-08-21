@@ -80,13 +80,13 @@ export function getARide(req, res) {
 }
 
 export function addRide(req, res) {
-  let text = 'SELECT * FROM rides WHERE date = $1 AND driver = $2 AND location = $3 AND destination = $4 AND departure_time = $5';
+  let text = 'SELECT * FROM rides WHERE date = $1 AND driver = $2 AND location = $3 AND destination = $4 AND departureTime = $5';
   const values = [
-    req.body.date.trim(),
+    req.body.date,
     req.body.driver.trim(),
     req.body.location.trim(),
     req.body.destination.trim(),
-    req.body.departure_time.trim(),
+    req.body.departureTime.trim(),
   ];
 
   dbconnect.query(text, values, (err, result) => {
@@ -94,14 +94,15 @@ export function addRide(req, res) {
       res.status(500).send({
         message: 'Server Error!',
         success: false,
-      });
+      });      
+      console.log(err);
     } else if (result.rowCount >= 1) {
       res.status(409).send({
         message: 'Ride already exists',
         success: false,
       });
     } else {
-      text = 'INSERT INTO rides(date, driver, location, destination, departure_time) VALUES($1, $2, $3, $4, $5) RETURNING *';
+      text = 'INSERT INTO rides(date, driver, location, destination, departureTime) VALUES($1, $2, $3, $4, $5) RETURNING *';
 
       dbconnect.query(text, values, (err, result) => {
         res.status(201).send({
@@ -137,7 +138,12 @@ export function addRequest(req, res) {
       ];
 
       dbconnect.query(text, values, (err, result) => {
-        if (result.rowCount >= 1) {
+        if (err) {
+          res.status(500).send({
+            message: 'Server Error!',
+            success: false,
+          });
+        } else if (result.rowCount >= 1) {
           res.status(409).send({
             message: 'Request already sent',
             success: false,
@@ -147,11 +153,18 @@ export function addRequest(req, res) {
 
           try {
             dbconnect.query(text, values, (err, result) => {
-              res.status(201).send({
-                message: 'Ride requested successfully',
-                success: true,
-                body: result.rows,
-              });
+              if (err) {
+                res.status(500).send({
+                  message: 'Server Error!',
+                  success: false,
+                });
+              } else {
+                res.status(201).send({
+                  message: 'Ride requested successfully',
+                  success: true,
+                  body: result.rows,
+                });
+              }
             });
           } catch (err) {
             throw err;
@@ -182,7 +195,12 @@ export function respondToRequest(req, res) {
       values = [req.params.requestid];
 
       dbconnect.query(text, values, (err, result) => {
-        if (!result) {
+        if (err) {
+          res.status(500).send({
+            message: 'Server Error!',
+            success: false,
+          });
+        } else if (!result) {
           res.status(404).send({
             message: 'Request does not exist',
             success: false,
@@ -192,7 +210,12 @@ export function respondToRequest(req, res) {
           values = [req.body.accept, req.params.rideid, req.params.requestid];
 
           dbconnect.query(text, values, (err, result) => {
-            if (req.body.accept === 'true') {
+            if (err) {
+              res.status(500).send({
+                message: 'Server Error!',
+                success: false,
+              });
+            } else if (req.body.accept === 'true') {
               res.status(200).json({
                 message: 'Request accepted',
                 success: true,

@@ -17,7 +17,7 @@ const createdb = () => {
       driver TEXT REFERENCES users(username),
       location TEXT,
       destination TEXT,
-      departure_time TIME
+      departureTime TIME
     );
     CREATE TABLE IF NOT EXISTS requests(
       id SERIAL PRIMARY KEY,
