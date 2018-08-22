@@ -10,11 +10,15 @@ A carpooling application API that provides drivers with the ability to create ri
 
 ## Installation
 
-To install, type **npm install** in the command shell.
+To install, type ```npm install``` in the command shell.
 
 ## Usage
 
-To run, use the following script: **npm start** 
+To run, type ```npm start``` in the command shell. 
+
+## Testing
+
+To run tests, type ```npm test``` in the command shell
 
 ### Technologies used
 The following technologies are currently being used in the development of the application:
@@ -24,10 +28,19 @@ The following technologies are currently being used in the development of the ap
 - Babel
 - Body-parser
 - Mocha, Chai and Nyc (for testing)
-- PostgreSQL
-- JWT
-- Bcrypt
+- PostgreSQL(Database)
+- JWT(Authentication/Authorization)
+- Bcrypt(Password Encryption)
+- Cors
+- Swagger-UI(Documentation)
+- ESLint(Linting Library)
+- Dotenv(Environmental Variables)
+- Cross-env
 
 ### Base URL
 
 https://shrouded-plains-80012.herokuapp.com/
+
+### Documentation
+
+[API Documentation](https://shrouded-plains-80012.herokuapp.com/api-docs)
