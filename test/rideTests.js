@@ -11,8 +11,9 @@ dotenv.config();
 chai.use(chaiHttp);
 
 describe('/GET rides', () => {
+  let accessToken;
   before(() => {
-    const accesstoken = jwt.sign({ id: 2 }, process.env.SECRET_KEY, { expiresIn: 86400 });
+    accesstoken = jwt.sign({ id: 2 }, process.env.SECRET_KEY, { expiresIn: 86400 });
   });
 
   it('it should GET all the rides', (done) => {
@@ -62,7 +63,6 @@ describe('/POST rides/:id/requests', () => {
       .post('/api/v1/rides/1/requests')
       .type('form')
       .set({ token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1MzA3Nzk2MjIsImV4cCI6MTUzMDg2NjAyMn0.Dmx00DBm09nArQs2-6Oo1kzOLgkdhrhNgXmTeZ4pp1o' })
-      .send({ passenger: 'galahad' })
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('object');

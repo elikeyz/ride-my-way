@@ -10,7 +10,8 @@ dotenv.config();
 describe('/POST /auth/signup', () => {
   it('it should create a new user account successfully', (done) => {
     const userData = {
-      name: 'Elijah Udogu',
+      firstName: 'Elijah',
+      lastName: 'Udogu',
       username: 'elikeys',
       email: 'koppter.kom@gmail.com',
       password: 'mastahacka',
@@ -29,7 +30,8 @@ describe('/POST /auth/signup', () => {
 
   it('it should ensure that no input field is empty', (done) => {
     let badUserData = {
-      name: '',
+      firstName: '',
+      lastName: 'Udogu',
       username: 'elikeyz',
       email: 'koppter.kom@gmail.com',
       password: 'mastahacka',
@@ -42,7 +44,22 @@ describe('/POST /auth/signup', () => {
         res.should.have.status(400);
       });
     badUserData = {
-      name: 'Elijah Udogu',
+      firstName: 'Elijah',
+      lastName: '',
+      username: 'elikeyz',
+      email: 'koppter.kom@gmail.com',
+      password: 'mastahacka',
+    };
+    chai.request(app)
+      .post('/api/v1/auth/signup')
+      .type('form')
+      .send(badUserData)
+      .end((err, res) => {
+        res.should.have.status(400);
+      });
+    badUserData = {
+      firstName: 'Elijah',
+      lastName: 'Udogu',
       username: '',
       email: 'koppter.kom@gmail.com',
       password: 'mastahacka',
@@ -55,7 +72,8 @@ describe('/POST /auth/signup', () => {
         res.should.have.status(400);
       });
     badUserData = {
-      name: 'Elijah Udogu',
+      firstName: 'Elijah',
+      lastName: 'Udogu',
       username: 'elikeyz',
       email: '',
       password: 'mastahacka',
@@ -68,7 +86,8 @@ describe('/POST /auth/signup', () => {
         res.should.have.status(400);
       });
     badUserData = {
-      name: 'Elijah Udogu',
+      firstName: 'Elijah',
+      lastName: 'Udogu',
       username: 'elikeyz',
       email: 'koppter.kom@gmail.com',
       password: '',
