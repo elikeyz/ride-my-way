@@ -42,6 +42,7 @@ const userController = {
               message: 'User account created successfully',
               success: true,
               accessToken: token,
+              user: result.rows[0],
             });
           }
         });
@@ -77,6 +78,7 @@ const userController = {
             message: 'User logged in successfully',
             success: true,
             accessToken: token,
+            user: result.rows[0],
           });
         }
       }

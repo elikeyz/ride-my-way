@@ -63,10 +63,16 @@
                 }
               },
               "409": {
-                "description": "Username already exists"                
+                "description": "Username already exists",
+                "schema": {
+                  "$ref": "#/definitions/Fail"
+                }                
               },
               "500": {
-                "description": "Server Error"                
+                "description": "Server Error",
+                "schema": {
+                  "$ref": "#/definitions/Fail"
+                }
               }
             }
           }  
@@ -99,13 +105,22 @@
                 }
               },
               "401": {
-                "description": "Wrong password"                
+                "description": "Wrong password",
+                "schema": {
+                  "$ref": "#/definitions/Fail"
+                }
               },
               "404": {
-                "description": "User account not found"                
+                "description": "User account not found",
+                "schema": {
+                  "$ref": "#/definitions/Fail"
+                }
               },
               "500": {
-                "description": "Server Error"                
+                "description": "Server Error",
+                "schema": {
+                  "$ref": "#/definitions/Fail"
+                }
               }
             }
           }  
@@ -132,11 +147,14 @@
               "200": {
                 "description": "Rides gotten successfully",
                 "schema": {
-                  "$ref": "#/definitions/Rides"
+                  "$ref": "#/definitions/RidesRes"
                 }
               },
               "500": {
-                "description": "Server Error"                
+                "description": "Server Error",
+                "schema": {
+                  "$ref": "#/definitions/Fail"
+                }
               }
             }
           }  
@@ -170,14 +188,20 @@
               "200": {
                 "description": "Ride gotten successfully",
                 "schema": {
-                  "$ref": "#/definitions/Ride"
+                  "$ref": "#/definitions/RideRes"
                 }
               },
               "404": {
-                "description": "Ride does not exist"                
+                "description": "Ride does not exist",
+                "schema": {
+                  "$ref": "#/definitions/Fail"
+                }
               },
               "500": {
-                "description": "Server Error"                
+                "description": "Server Error",
+                "schema": {
+                  "$ref": "#/definitions/Fail"
+                }
               }
             }
           }  
@@ -233,14 +257,20 @@
               "200": {
                 "description": "Ride requested successfully",
                 "schema": {
-                  "$ref": "#/definitions/Request"
+                  "$ref": "#/definitions/RequestRes"
                 }
               },
               "409": {
-                "description": "Request already sent"  
+                "description": "Request already sent",
+                "schema": {
+                  "$ref": "#/definitions/Fail"
+                }
               },
               "500": {
-                "description": "Server Error"                
+                "description": "Server Error",
+                "schema": {
+                  "$ref": "#/definitions/Fail"
+                }
               }
             }
           }  
@@ -278,14 +308,20 @@
               "200": {
                 "description": "Ride added successfully",
                 "schema": {
-                  "$ref": "#/definitions/Ride"
+                  "$ref": "#/definitions/RideRes"
                 }
               },
               "409": {
-                "description": "Ride already exists"  
+                "description": "Ride already exists",
+                "schema": {
+                  "$ref": "#/definitions/Fail"
+                }
               },
               "500": {
-                "description": "Server Error"                
+                "description": "Server Error",
+                "schema": {
+                  "$ref": "#/definitions/Fail"
+                }
               }
             }
           }  
@@ -319,11 +355,14 @@
               "200": {
                 "description": "Requests gotten successfully",
                 "schema": {
-                  "$ref": "#/definitions/Requests"
+                  "$ref": "#/definitions/RequestsRes"
                 }
               },
               "500": {
-                "description": "Server Error"                
+                "description": "Server Error",
+                "schema": {
+                  "$ref": "#/definitions/Fail"
+                }
               }
             }
           }  
@@ -361,11 +400,11 @@
             ],
             "parameters": [
               {
-                "name": "request",
+                "name": "response",
                 "in": "body",
-                "description": "Request with updated response",
+                "description": "Response to the given request of the given ride",
                 "schema": {
-                  "$ref": "#/definitions/Requests"
+                  "$ref": "#/definitions/Response"
                 }
               }
             ],
@@ -373,14 +412,20 @@
               "200": {
                 "description": "Request accepted/rejected",
                 "schema": {
-                  "$ref": "#/definitions/Request"
+                  "$ref": "#/definitions/RequestRes"
                 }
               },
               "404": {
-                "description": "Ride/Request doesn't exist"  
+                "description": "Ride/Request doesn't exist",
+                "schema": {
+                  "$ref": "#/definitions/Fail"
+                }
               },
               "500": {
-                "description": "Server Error"                
+                "description": "Server Error",
+                "schema": {
+                  "$ref": "#/definitions/Fail"
+                }
               }
             }
           }
@@ -431,10 +476,20 @@
       },
       "Token": {
         "properties": {
-          "token": {
+          "message": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "accessToken": {
             "type": "string",
             "uniqueItems": true  
-          }  
+          },
+          "user": {
+            "type": "object",
+            "$ref": "#/definitions/User"
+          }
         }  
       },  
       "User": {
@@ -531,6 +586,80 @@
       "Requests": {
         "type": "array",
         "$ref": "#/definitions/Request"  
+      },
+      "RidesRes": {
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "body": {
+            "type": "array",
+            "$ref":"#/definitions/Rides"
+          }
+        }
+      },
+      "RideRes": {
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "body": {
+            "type": "object",
+            "$ref":"#/definitions/Ride"
+          }
+        }
+      },
+      "RequestsRes": {
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "body": {
+            "type": "array",
+            "$ref":"#/definitions/Requests"
+          }
+        }
+      },
+      "RequestRes": {
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "body": {
+            "type": "object",
+            "$ref":"#/definitions/Request"
+          }
+        }
+      },
+      "Response": {
+        "type": "object",
+        "properties": {
+          "accept": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Fail": {
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          }
+        }
       }
     }
   }
