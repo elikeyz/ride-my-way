@@ -21,7 +21,7 @@ describe('/POST /auth/signup', () => {
       .type('form')
       .send(userData)
       .end((err, res) => {
-        res.should.have.status(200);
+        res.should.have.status(409);
         res.body.should.have.property('message');
         res.body.should.have.property('success');
         done();

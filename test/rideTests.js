@@ -11,18 +11,15 @@ dotenv.config();
 chai.use(chaiHttp);
 
 describe('/GET rides', () => {
-  let accessToken;
-  before(() => {
-    accesstoken = jwt.sign({ id: 2 }, process.env.SECRET_KEY, { expiresIn: 86400 });
-  });
-
   it('it should GET all the rides', (done) => {
     chai.request(app)
       .get('/api/v1/rides')
-      .set({ token: accesstoken })
+      .set({ token: jwt.sign({ id: 1 }, process.env.SECRET_KEY, { expiresIn: 86400 }) })
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('object');
+        res.body.should.have.property('message');
+        res.body.should.have.property('success');
         res.body.should.have.property('body');
         done();
       });
@@ -33,10 +30,12 @@ describe('/GET/:id ride', () => {
   it('it should GET a ride by the given id', (done) => {
     chai.request(app)
       .get('/api/v1/rides/1')
-      .set({ token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1MzA3Nzk2MjIsImV4cCI6MTUzMDg2NjAyMn0.Dmx00DBm09nArQs2-6Oo1kzOLgkdhrhNgXmTeZ4pp1o' })
+      .set({ token: jwt.sign({ id: 1 }, process.env.SECRET_KEY, { expiresIn: 86400 }) })
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('object');
+        res.body.should.have.property('message');
+        res.body.should.have.property('success');
         res.body.should.have.property('body');
         done();
       });
@@ -47,11 +46,36 @@ describe('/GET/users/rides/:id/requests', () => {
   it('it should GET all the requests of a specific ride', (done) => {
     chai.request(app)
       .get('/api/v1/users/rides/1/requests')
-      .set({ token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1MzA3Nzk2MjIsImV4cCI6MTUzMDg2NjAyMn0.Dmx00DBm09nArQs2-6Oo1kzOLgkdhrhNgXmTeZ4pp1o' })
+      .set({ token: jwt.sign({ id: 1 }, process.env.SECRET_KEY, { expiresIn: 86400 }) })
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('object');
+        res.body.should.have.property('message');
+        res.body.should.have.property('success');
         res.body.should.have.property('body');
+        done();
+      });
+  });
+});
+
+describe('/POST rides', () => {
+  it('it should create a ride offer successfully', (done) => {
+    const rideData = {
+      date: '09/25/2018',
+      location: 'Benin',
+      destination: 'Lagos',
+      departureTime: '08:00',
+    };
+    chai.request(app)
+      .post('/api/v1/users/rides')
+      .type('form')
+      .set({ token: jwt.sign({ id: 2 }, process.env.SECRET_KEY, { expiresIn: 86400 }) })
+      .send(rideData)
+      .end((err, res) => {
+        res.should.have.status(409);
+        res.body.should.be.a('object');
+        res.body.should.have.property('message');
+        res.body.should.have.property('success');
         done();
       });
   });
@@ -62,10 +86,12 @@ describe('/POST rides/:id/requests', () => {
     chai.request(app)
       .post('/api/v1/rides/1/requests')
       .type('form')
-      .set({ token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1MzA3Nzk2MjIsImV4cCI6MTUzMDg2NjAyMn0.Dmx00DBm09nArQs2-6Oo1kzOLgkdhrhNgXmTeZ4pp1o' })
+      .set({ token: jwt.sign({ id: 2 }, process.env.SECRET_KEY, { expiresIn: 86400 }) })
       .end((err, res) => {
-        res.should.have.status(200);
+        res.should.have.status(409);
         res.body.should.be.a('object');
+        res.body.should.have.property('message');
+        res.body.should.have.property('success');
         done();
       });
   });
@@ -76,11 +102,13 @@ describe('/PUT users/rides/:rideid/requests/:requestid', () => {
     chai.request(app)
       .put('/api/v1/users/rides/1/requests/2')
       .type('form')
-      .set({ token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1MzA3Nzk2MjIsImV4cCI6MTUzMDg2NjAyMn0.Dmx00DBm09nArQs2-6Oo1kzOLgkdhrhNgXmTeZ4pp1o' })
+      .set({ token: jwt.sign({ id: 1 }, process.env.SECRET_KEY, { expiresIn: 86400 }) })
       .send({ accept: 'true' })
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('object');
+        res.body.should.have.property('message');
+        res.body.should.have.property('success');
         done();
       });
   });
