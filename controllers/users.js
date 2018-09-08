@@ -73,7 +73,8 @@ const userController = {
             success: false,
           });
         } else {
-          const token = jwt.sign({ id: req.body.id }, process.env.SECRET_KEY, { expiresIn: 86400 });
+          const userId = result.rows[0].id;
+          const token = jwt.sign({ id: userId }, process.env.SECRET_KEY, { expiresIn: 86400 });
           res.status(200).send({
             message: 'User logged in successfully',
             success: true,
