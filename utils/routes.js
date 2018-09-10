@@ -5,7 +5,7 @@ import rideValidate from './rideValidate';
 import responseValidate from './responseValidate';
 import idValidate from './idValidate';
 import responseIdValidate from './responseIdValidate';
-import { getRequests, getAllRides, getARide, addRide, addRequest, respondToRequest } from '../controllers/rides';
+import { getRequests, getAllRides, getARide, addRide, addRequest, respondToRequest, getUserRequests } from '../controllers/rides';
 import userController from '../controllers/users';
 
 const routes = (app) => {
@@ -15,6 +15,7 @@ const routes = (app) => {
   app.get('/api/v1/rides', tokenValidate, getAllRides);
   app.get('/api/v1/rides/:id', tokenValidate, idValidate, getARide);
   app.get('/api/v1/users/rides/:id/requests', tokenValidate, idValidate, getRequests);
+  app.get('/api/v1/users/requests', tokenValidate, getUserRequests);
   app.post('/api/v1/users/rides', tokenValidate, rideValidate, addRide);
   app.post('/api/v1/rides/:id/requests', tokenValidate, idValidate, addRequest);
   app.post('/api/v1/auth/signup', validate, userController.signUp);

@@ -41,7 +41,6 @@ export function getRequests(req, res) {
               });
             } else {
               text = 'SELECT * FROM requests WHERE rideId = $1';
-
               try {
                 dbconnect.query(text, values, (err, result) => {
                   if (err) {
@@ -364,3 +363,46 @@ export function respondToRequest(req, res) {
   });
 }
 
+export function getUserRequests(req, res) {
+  jwt.verify(req.headers.token, process.env.SECRET_KEY, (err, decoded) => {
+    if (err) {
+      res.status(401).send({
+        message: 'Please log in',
+        success: false,
+      });
+    } else {
+      let text = 'SELECT * FROM users WHERE id = $1';
+      let values = [decoded.id];
+
+      dbconnect.query(text, values, (err, result) => {
+        if (err) {
+          res.status(500).send({
+            message: 'Server Error!',
+            success: false,
+          });
+        } else {
+          const user = result.rows[0];
+          console.log(user);
+
+          text = 'SELECT * FROM requests WHERE passenger = $1';
+          values = [user.username];
+
+          dbconnect.query(text, values, (err, result) => {
+            if (err) {
+              res.status(500).send({
+                message: 'Server Error!',
+                success: false,
+              });
+            } else {
+              res.status(200).send({
+                message: 'User\'s Requests gotten successfully',
+                success: true,
+                body: result.rows,
+              });
+            }
+          });
+        }
+      });
+    }
+  });
+}

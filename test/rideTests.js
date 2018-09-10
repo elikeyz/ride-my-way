@@ -113,3 +113,20 @@ describe('/PUT users/rides/:rideid/requests/:requestid', () => {
       });
   });
 });
+
+describe('/GET users/requests', () => {
+  it('it should GET all requests made by the signed in user', (done) => {
+    chai.request(app)
+      .get('/api/v1/users/requests')
+      .set({ token: jwt.sign({ id: 1 }, process.env.SECRET_KEY, { expiresIn: 86400 }) })
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        res.body.should.have.property('message');
+        res.body.should.have.property('success');
+        res.body.should.have.property('body');
+        res.body.body.should.be.a('array');
+        done();
+      });
+  });
+});

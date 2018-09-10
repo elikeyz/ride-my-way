@@ -9,7 +9,7 @@
         "url": "https://opensource.org/licenses/MIT"
       }
     },
-    "host": "localhost:8081",
+    "host": "https://shrouded-plains-80012.herokuapp.com",
     "basePath": "/api/v1",
     "tags": [
       {
@@ -325,6 +325,43 @@
               }
             }
           }  
+      },
+      "/users/requests": {
+        "get": {
+          "tags": [
+            "Users"
+          ],
+          "summary": "Get all requests made by the logged-in user",
+          "description": "Get all requests made by the logged-in user",
+          "parameters": [
+            {
+              "name": "token",
+              "in": "header",
+              "required": true,
+              "description": "JSON Web Token authorizing the user to access this route",
+              "schema": {
+                "$ref": "#/definitions/Token"
+              }  
+            }
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "User's Requests gotten successfully",
+              "schema": {
+                "$ref": "#/definitions/RequestsRes"
+              }
+            },
+            "500": {
+              "description": "Server Error",
+              "schema": {
+                "$ref": "#/definitions/Fail"
+              }
+            }
+          }
+        }
       },
       "/users/rides/{rideId}/requests": {
         "parameters": [
