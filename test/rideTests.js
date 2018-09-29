@@ -61,7 +61,7 @@ describe('/GET/users/rides/:id/requests', () => {
 describe('/POST rides', () => {
   it('it should create a ride offer successfully', (done) => {
     const rideData = {
-      date: '09/25/2018',
+      date: '10/25/2020',
       location: 'Benin',
       destination: 'Lagos',
       departureTime: '08:00',

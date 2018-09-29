@@ -23,7 +23,6 @@ export function getRequests(req, res) {
           });
         } else {
           const user = result.rows[0];
-          console.log(user);
 
           text = 'SELECT * FROM rides WHERE id = $1';
           values = [req.params.id];
@@ -138,7 +137,6 @@ export function addRide(req, res) {
           });
         } else {
           const user = result.rows[0];
-          console.log(user);
 
           text = 'SELECT * FROM rides WHERE date = $1 AND driver = $2 AND location = $3 AND destination = $4 AND departureTime = $5';
           values = [
@@ -206,7 +204,6 @@ export function addRequest(req, res) {
           });
         } else {
           const user = result.rows[0];
-          console.log(user);
 
           text = 'SELECT * FROM rides WHERE id = $1';
           values = [req.params.id];
@@ -295,7 +292,6 @@ export function respondToRequest(req, res) {
           });
         } else {
           const user = result.rows[0];
-          console.log(user);
 
           text = 'SELECT * FROM rides WHERE id = $1';
           values = [req.params.rideid];
@@ -382,7 +378,6 @@ export function getUserRequests(req, res) {
           });
         } else {
           const user = result.rows[0];
-          console.log(user);
 
           text = 'SELECT * FROM requests WHERE passenger = $1';
           values = [user.username];

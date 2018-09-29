@@ -19,7 +19,7 @@ const validate = (req, res, next) => {
       message: 'Please enter your email',
       success: false,
     });
-  } else if (!req.body.password.trim()) {
+  } else if (!req.body.password) {
     res.status(400).send({
       message: 'Please enter your password',
       success: false,

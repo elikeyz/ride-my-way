@@ -4,14 +4,13 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const tokenValidate = (req, res, next) => {
-  jwt.verify(req.headers.token, process.env.SECRET_KEY, (err, decoded) => {
+  jwt.verify(req.headers.token, process.env.SECRET_KEY, (err) => {
     if (err) {
       res.status(401).send({
         message: 'Please log in',
         success: false,
-      });      
+      });
     } else {
-      console.log(decoded);
       next();
     }
   });
