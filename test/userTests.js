@@ -9,6 +9,17 @@ dotenv.config();
 
 chai.use(chaiHttp);
 
+describe('/GET /', () => {
+  it('it should load the base URL successfully', (done) => {
+    chai.request(app)
+      .get('/')
+      .end((err, res) => {
+        res.should.have.status(200);
+        done();
+      });
+  });
+});
+
 describe('/POST /auth/signup', () => {
   it('it should create a new user account successfully', (done) => {
     const userData = {
@@ -44,6 +55,8 @@ describe('/POST /auth/signup', () => {
       .send(badUserData)
       .end((err, res) => {
         res.should.have.status(400);
+        res.body.should.have.property('message').eql('Please enter your first name');
+        res.body.should.have.property('success').eql(false);
       });
     badUserData = {
       firstName: 'Elijah',
@@ -58,6 +71,8 @@ describe('/POST /auth/signup', () => {
       .send(badUserData)
       .end((err, res) => {
         res.should.have.status(400);
+        res.body.should.have.property('message').eql('Please enter your last name');
+        res.body.should.have.property('success').eql(false);
       });
     badUserData = {
       firstName: 'Elijah',
@@ -72,6 +87,8 @@ describe('/POST /auth/signup', () => {
       .send(badUserData)
       .end((err, res) => {
         res.should.have.status(400);
+        res.body.should.have.property('message').eql('Please enter your username');
+        res.body.should.have.property('success').eql(false);
       });
     badUserData = {
       firstName: 'Elijah',
@@ -86,6 +103,8 @@ describe('/POST /auth/signup', () => {
       .send(badUserData)
       .end((err, res) => {
         res.should.have.status(400);
+        res.body.should.have.property('message').eql('Please enter your email');
+        res.body.should.have.property('success').eql(false);
       });
     badUserData = {
       firstName: 'Elijah',
@@ -100,6 +119,8 @@ describe('/POST /auth/signup', () => {
       .send(badUserData)
       .end((err, res) => {
         res.should.have.status(400);
+        res.body.should.have.property('message').eql('Please enter your password');
+        res.body.should.have.property('success').eql(false);
         done();
       });
   });
@@ -118,7 +139,11 @@ describe('/POST /auth/login', () => {
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('object');
+        res.body.should.have.property('message').eql('User logged in successfully');
+        res.body.should.have.property('success').eql(true);
         res.body.should.have.property('accessToken');
+        res.body.should.have.property('user');
+        res.body.user.should.be.a('object');
         done();
       });
   });
@@ -133,6 +158,8 @@ describe('/POST /auth/login', () => {
       .send(wrongUsername)
       .end((err, res) => {
         res.should.have.status(404);
+        res.body.should.have.property('message').eql('User account not found!');
+        res.body.should.have.property('success').eql(false);
         done();
       });
   });
@@ -147,6 +174,8 @@ describe('/POST /auth/login', () => {
       .send(wrongPassword)
       .end((err, res) => {
         res.should.have.status(401);
+        res.body.should.have.property('message').eql('Wrong password!');
+        res.body.should.have.property('success').eql(false);
         done();
       });
   });
@@ -162,6 +191,8 @@ describe('/POST /auth/login', () => {
       .send(badUserData)
       .end((err, res) => {
         res.should.have.status(400);
+        res.body.should.have.property('message').eql('Please enter your username');
+        res.body.should.have.property('success').eql(false);
       });
 
     badUserData = {
@@ -174,6 +205,8 @@ describe('/POST /auth/login', () => {
       .send(badUserData)
       .end((err, res) => {
         res.should.have.status(400);
+        res.body.should.have.property('message').eql('Please enter your password');
+        res.body.should.have.property('success').eql(false);
         done();
       });
   });

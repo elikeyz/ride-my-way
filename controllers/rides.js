@@ -322,7 +322,7 @@ export function respondToRequest(req, res) {
                     message: 'Server Error!',
                     success: false,
                   });
-                } else if (!result) {
+                } else if (result.rowCount < 1) {
                   res.status(404).send({
                     message: 'Request does not exist',
                     success: false,
