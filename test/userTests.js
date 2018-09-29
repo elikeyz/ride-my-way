@@ -7,6 +7,8 @@ const should = chai.should();
 
 dotenv.config();
 
+chai.use(chaiHttp);
+
 describe('/POST /auth/signup', () => {
   it('it should create a new user account successfully', (done) => {
     const userData = {

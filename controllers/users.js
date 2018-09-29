@@ -23,10 +23,15 @@ const userController = {
           success: false,
         });
       } else {
-        const hashedPassword = bcrypt.hashSync(req.body.password.trim(), 10);
+        const hashedPassword = bcrypt.hashSync(req.body.password, 10);
 
         text = 'INSERT INTO users(username, firstName, lastName, email, password) VALUES($1, $2, $3, $4, $5) RETURNING *';
-        values = [req.body.username.trim(), req.body.firstName.trim(), req.body.lastName.trim(), req.body.email.trim(), hashedPassword];
+        values = [
+          req.body.username.trim(),
+          req.body.firstName.trim(),
+          req.body.lastName.trim(),
+          req.body.email.trim(),
+          hashedPassword];
 
         dbconnect.query(text, values, (err, result) => {
           if (err) {
@@ -66,7 +71,7 @@ const userController = {
           success: false,
         });
       } else {
-        const comparePassword = bcrypt.compareSync(req.body.password.trim(), result.rows[0].password.trim());
+        const comparePassword = bcrypt.compareSync(req.body.password, result.rows[0].password);
         if (!comparePassword) {
           res.status(401).send({
             message: 'Wrong password!',
