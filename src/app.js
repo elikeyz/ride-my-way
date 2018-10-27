@@ -2,10 +2,12 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import swaggerUi from 'swagger-ui-express';
 import cors from 'cors';
+import dotenv from 'dotenv';
 import routes from './utils/routes';
 import createdb from './models/createRidesdb';
-import swaggerDocument from './swagger.json';
+import swaggerDocument from '../swagger.json';
 
+dotenv.config();
 const app = express();
 
 app.use(cors());

@@ -10,7 +10,7 @@ import userController from '../controllers/users';
 
 const routes = (app) => {
   app.get('/', (req, res) => {
-    res.status(200).send('Welcome to the Ride My Way API, version 1! \nNavigate to api-docs to view the documentation');
+    res.status(200).send({ message: 'Welcome to the Ride My Way API, version 1! Navigate to /api-docs to view the documentation' });
   });
   app.get('/api/v1/rides', tokenValidate, getAllRides);
   app.get('/api/v1/rides/:id', tokenValidate, idValidate, getARide);

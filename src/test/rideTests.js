@@ -1,13 +1,11 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 import app from '../app';
 
-const should = chai.should();
-
 dotenv.config();
-
+const should = chai.should();
 chai.use(chaiHttp);
 
 describe('/GET rides', () => {
