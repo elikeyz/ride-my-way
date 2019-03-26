@@ -1,8 +1,7 @@
 import pool from '../utils/dbconnect';
 
 const createdb = () => {
-  try {
-    pool.query(`
+  pool.query(`
     CREATE TABLE IF NOT EXISTS users(
       id SERIAL PRIMARY KEY,
       username TEXT UNIQUE,
@@ -25,9 +24,6 @@ const createdb = () => {
       rideId INTEGER REFERENCES rides(id),
       isAccepted BOOLEAN
     )`);
-  } catch (err) {
-    throw err;
-  }
 };
 
 export default createdb;
